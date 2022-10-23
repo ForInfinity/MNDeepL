@@ -126,7 +126,10 @@ var WebViewController = JSB.defineClass('WebViewController : UIViewController', 
 WebViewController.prototype.translateText = function(text){
     if(!this.webView||!this.webView.window)return;
     this.text = text;
-    var url = 'https://www.deepl.com/translator#auto/' + this.lanCode + '/' + encodeURIComponent(this.text);
+    // fix "/" issue.
+    let encodedText = encodeURIComponent(this.text);
+    encodedText = encodedText.replaceAll("%2F","%5C%2F");
+    var url = 'https://www.deepl.com/translator#auto/' + this.lanCode + '/' + encodedText;
     this.webView.loadRequest(NSURLRequest.requestWithURL(NSURL.URLWithString(url)));
   };
 
